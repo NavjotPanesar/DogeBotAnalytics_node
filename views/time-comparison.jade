@@ -1,9 +1,22 @@
-extends layout
+extends layout_bargraph
 
 block content
-  h1= title
-  p Welcome to #{title}
-  canvas(id="canvas")
+  h1 Average Time Comparison
+  canvas(id='canvas')
+  p This graph compares the average computation time required for each command (network delay is not included in these times)
 block script
-  script(src='/Chart.js/Chart.min.js')
+  script(type='text/javascript').
+    var getData = function(){
+      return !{data};
+    }
+    var getLabels = function(){
+      return !{labels};
+    }
+    var getWidth = function(){
+      return 600;
+    }
+    var getHeight = function(){
+      return 300;
+    }
   script(src='/javascripts/time-comparison.js')
+

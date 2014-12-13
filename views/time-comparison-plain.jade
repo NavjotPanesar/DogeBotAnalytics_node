@@ -1,0 +1,20 @@
+extends layout_bargraph
+
+block content
+  canvas(id='canvas')
+block script
+  script(type='text/javascript').
+    var getData = function(){
+      return !{data};
+    }
+    var getLabels = function(){
+      return !{labels};
+    }
+    var getWidth = function(){
+      return #{width};
+    }
+    var getHeight = function(){
+      return #{height};
+    }
+  script(src='/javascripts/time-comparison.js')
+

@@ -8,4 +8,71 @@ var commandSchema = mongoose.Schema({
   timeTaken: Number
 });
 
+commandSchema.statics.getList = function(callback){
+  this.distinct('command', function (err, result) {
+          if (err) {
+              console.log(err);
+          } else {
+              callback(result);
+          }
+      });
+}
+
+commandSchema.statics.getCommand = function(command, callback){
+  this.find({"command":command},function (err, tweets) {
+      if (err){
+        console.log(err);
+      } else {
+        callback(tweets);
+      }
+    })
+}
+
+commandSchema.statics.getCount = function(command, callback){
+    this.count({"command":command},function (err, count) {
+      if (err){
+        console.log(err);
+      } else {
+        callback(count);
+      }
+    })
+}
+
+commandSchema.statics.getAverageTime = function(command, callback){
+
+    this.aggregate([
+            { $match: {
+                command: command
+            }},
+            { $group: {
+                _id: "$command",
+                averageTime: { $avg: "$timeTaken"  }
+            }}
+        ], function (err, result) {
+            if (err) {
+                console.log(err);
+            } else {
+                callback(result);
+            }
+        });
+}
+
+commandSchema.statics.getTimeSummary = function( callback){
+
+   this.aggregate([
+           { $group: {
+               _id: "$command",
+               averageTime: { $avg: "$timeTaken"  }
+           }}
+       ], function (err, result) {
+           if (err) {
+               console.log(err);
+           } else {
+               callback(result);
+           }
+       });
+}
+
+
+
 module.exports = mongoose.model('Command', commandSchema);

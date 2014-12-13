@@ -7,73 +7,40 @@ var Command = require('./command.model.js');
 // GET all tweets for a certain command  
 app.get('/tweets/:command', function(req, res) {
   var command = req.params.command;
-  Command.find({"command":command},function (err, tweets) {
-    if (err){
-      console.log(err);
-    } else {
-      res.json(tweets);
-    }
-  })
+   Command.getCommand(command, function(count){
+           res.json(count);
+       });
 });
 
 // GET list of all commands
 app.get('/', function(req, res) {
-  Command.distinct('command', function (err, result) {
-        if (err) {
-            console.log(err);
-        } else {
-            res.json(result);
-        }
+    Command.getList(function(result){
+        res.json(result);
     });
 });
 
 // GET number of tweets for a command 
 app.get('/count/:command', function(req, res) {
   var command = req.params.command;
-  Command.count({"command":command},function (err, count) {
-    if (err){
-      console.log(err);
-    } else {
-      res.json(count);
-    }
-  })
+  Command.getCount(command, function(count){
+          res.json(count);
+      });
 });
 
 // GET time it took to process tweets for a command 
 app.get('/average-time/:command', function(req, res) {
   var command = req.params.command;
-  Command.aggregate([
-        { $match: {
-            command: command
-        }},
-        { $group: {
-            _id: "$command",
-            averageTime: { $avg: "$timeTaken"  }
-        }}
-    ], function (err, result) {
-        if (err) {
-            console.log(err);
-        } else {
-            res.json(result);
-        }
-    });
+  Command.getAverageTime(command, function(avgTime){
+            res.json(avgTime);
+        });
 });
 
 
 /* GET all commands and their average times */
 app.get('/time-summary', function(req, res) {
-  Command.aggregate([
-        { $group: {
-            _id: "$command",
-            averageTime: { $avg: "$timeTaken"  }
-        }}
-    ], function (err, result) {
-        if (err) {
-            console.log(err);
-        } else {
-            res.send(result);
-        }
-    });
+      Command.getTimeSummary(function(result){
+                res.send(result);
+            });
 });
 
 app.post('/', function(req, res) {

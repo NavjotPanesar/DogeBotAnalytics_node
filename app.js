@@ -8,9 +8,7 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://127.0.0.1:27017/dogeanalytics');
 
-var index = require('./public_html/');
-var commands = require('./routes/commands');
-
+var index = require('./routes/');
 
 var app = express();
 
@@ -25,9 +23,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'bower_components')));
 
-app.use('/commands', commands);
-//app.use('/', index);
+app.use('/', index);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
     var err = new Error('Not Found');
