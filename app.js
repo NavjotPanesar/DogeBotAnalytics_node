@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 //Mongo
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://127.0.0.1:27017/dogeanalytics');
+mongoose.connect('mongodb://<admin>:<system32>@ds043947.mongolab.com:43947/dogeanalytics');
 
 var index = require('./routes/');
 
