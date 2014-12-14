@@ -44,6 +44,10 @@ app.get('/time-summary', function(req, res) {
 });
 
 app.post('/', function(req, res) {
+  if(req.body.token != 'wow'){
+    res.send('2');
+    return;
+  }
   var body = req.body;
   var command = new Command(req.body);
   command.save(function (err) {
