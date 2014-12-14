@@ -5,7 +5,8 @@ var commandSchema = mongoose.Schema({
   username: String,
   command: String,
   commandOperands: String,
-  timeTaken: Number
+  timeTaken: Number,
+  date: { type: Date, default: Date.now }
 });
 
 commandSchema.statics.getList = function(callback){
