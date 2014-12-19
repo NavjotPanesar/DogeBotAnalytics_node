@@ -91,7 +91,22 @@ commandSchema.statics.getUsageSummary = function( callback){
 
 }
 
+commandSchema.statics.getUsageByDate = function( callback){
 
+   this.aggregate([
+           { $group: {
+               _id: "$date",
+               usageCount: { $sum: 1 }
+           }}
+       ], function (err, result) {
+           if (err) {
+               console.log(err);
+           } else {
+               callback(result);
+           }
+       });
+
+}
 
 
 
