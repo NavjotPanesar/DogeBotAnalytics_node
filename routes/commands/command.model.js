@@ -74,6 +74,25 @@ commandSchema.statics.getTimeSummary = function( callback){
        });
 }
 
+commandSchema.statics.getUsageSummary = function( callback){
+
+   this.aggregate([
+           { $group: {
+               _id: "$command",
+               usageCount: { $sum: 1 }
+           }}
+       ], function (err, result) {
+           if (err) {
+               console.log(err);
+           } else {
+               callback(result);
+           }
+       });
+
+}
+
+
+
 
 
 module.exports = mongoose.model('Command', commandSchema);
